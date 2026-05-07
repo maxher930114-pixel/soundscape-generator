@@ -1,65 +1,15 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
 
 .hero {
+  visibility: hidden;
   position: relative;
 
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
 }
 
 #center {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 15px;
   place-content: center;
   place-items: center;
   flex-grow: 1;
@@ -70,115 +20,237 @@
   }
 }
 
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
 
 #docs {
-  border-right: 1px solid var(--border);
 
   @media (max-width: 1024px) {
     border-right: none;
-    border-bottom: 1px solid var(--border);
   }
 }
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
 
 #spacer {
   height: 88px;
-  border-top: 1px solid var(--border);
   @media (max-width: 1024px) {
     height: 48px;
   }
 }
 
 .ticks {
+display: none;
+}
+
+/* In App.css */
+/* --- 1. KEYFRAMES --- */
+
+/* For the Title: Fade + Rise */
+@keyframes fadeInRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* For the Mixer: Fade Only (Fixes your missing animation) */
+@keyframes fadeInOnly {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- 2. TITLE CARD --- */
+.intro-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 2rem;
+  text-align: center;
+  
+  /* Animation */
+  opacity: 0;
+  transition: opacity 1s ease-out, visibility 1s;
+  animation: fadeInRise 2.5s ease-out forwards;
+  animation-delay: 0.8s;
+}
+
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* --- 3. THE BUTTON --- */
+.enter-button {
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  transition: background-color 0.25s, transform 0.2s;
+  
+  /* Staggered Fade */
+  opacity: 0;
+  animation: fadeInOnly 1s ease-out forwards;
+  animation-delay: 1.8s; /* Appears after title */
+}
+
+.enter-button:hover {
+  background-color: #535bf2;
+}
+
+.enter-button:active {
+  transform: scale(0.95);
+}
+
+/* --- 4. THE MAIN MIXER --- */
+.mixer-fade-in {
+  animation: fadeInOnly 2s ease-in-out forwards;
+}
+
+/* --- 5. CIRCULAR SLIDER UI --- */
+
+.slider-container {
   position: relative;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-container svg {
+  overflow: visible; /* Prevents glow clipping */
+}
+
+.slider-bg, 
+.slider-progress {
+  fill: none;
+  stroke-linecap: round;
+  /* FORCE THE GAP TO THE BOTTOM: 
+     135deg is the magic number for a 75% arc */
+  transform: rotate(135deg);
+  transform-origin: center;
+}
+
+.slider-bg {
+  stroke: rgba(255, 255, 255, 0.05);
+}
+
+.slider-progress {
+  stroke: #4a90e2; 
+  transition: stroke-dashoffset 0.1s ease;
+  /* Optional: filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.5)); */
+}
+
+.slider-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none; /* Let clicks pass through to the input */
+}
+
+/* Invisible range input that captures the drag math */
+.slider-content input[type="range"] {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: -50px;
+  left: -50px;
+  opacity: 0; 
+  cursor: pointer;
+  pointer-events: auto; /* Ensure this IS clickable */
+}
+
+.slider-container label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 5px;
+}
+
+.knob-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5vh; /* Space between the top and bottom row */
+  margin: 60px auto;
+  max-width: 100%;
+}
+
+.knob-row {
+  display: flex;
+  justify-content: center;
+  gap: 8vw; /* Space between the knobs themselves */
   width: 100%;
+  max-width: 1400px;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+/* Optional: This makes the "pyramid" look tighter */
+.top-row {
+  /* If you want the top 2 centered but somewhat wide */
+  width: 45%;
+  min-width: 320px; 
+}
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+.bottom-row {
+  /* Let the bottom 3 use the full horizontal span */
+  width: 85%;
+  min-width: 500px; 
+}
+
+.slider-container {
+  /* This ensures the knobs themselves don't shrink */
+  flex: 0 0 120px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#main-text {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgb(188, 188, 188);
+  letter-spacing: 0.2em;
+  padding-bottom: 20px;
+  
+}
+
+#intro-text {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  padding-bottom: 20px;
+}
+
+.site-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  transition: all 1.2s ease-out; /* This makes the colors "flow" smoothly */
+  
+  --sky-r: calc(20 + (var(--birds-vol) * 100) - (var(--storm-vol) * 50));
+  --sky-g: calc(40 + (var(--birds-vol) * 120) - (var(--storm-vol) * 50));
+  --sky-b: calc(60 + (var(--birds-vol) * 150) - (var(--storm-vol) * 50));
+
+  --deep-r: calc(10 + (var(--storm-vol) * 30));
+  --deep-g: calc(20 + (var(--shore-vol) * 60) - (var(--storm-vol) * 20));
+  --deep-b: calc(40 + (var(--waves-vol) * 100) + (var(--harbor-vol) * 40));
+
+
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--sky-r), var(--sky-g), var(--sky-b)),
+    rgb(var(--deep-r), var(--deep-g), var(--deep-b))
+  );
 }
