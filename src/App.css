@@ -1,5 +1,3 @@
-
-
 .hero {
   visibility: hidden;
   position: relative;
@@ -20,14 +18,11 @@
   }
 }
 
-
 #docs {
-
   @media (max-width: 1024px) {
     border-right: none;
   }
 }
-
 
 #spacer {
   height: 88px;
@@ -40,22 +35,17 @@
 display: none;
 }
 
-/* In App.css */
-/* --- 1. KEYFRAMES --- */
 
-/* For the Title: Fade + Rise */
 @keyframes fadeInRise {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* For the Mixer: Fade Only (Fixes your missing animation) */
 @keyframes fadeInOnly {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* --- 2. TITLE CARD --- */
 .intro-card {
   position: fixed;
   top: 0;
@@ -70,7 +60,6 @@ display: none;
   padding: 2rem;
   text-align: center;
   
-  /* Animation */
   opacity: 0;
   transition: opacity 1s ease-out, visibility 1s;
   animation: fadeInRise 2.5s ease-out forwards;
@@ -83,7 +72,6 @@ display: none;
   pointer-events: none;
 }
 
-/* --- 3. THE BUTTON --- */
 .enter-button {
   margin-top: 2rem;
   padding: 1rem 2.5rem;
@@ -95,10 +83,9 @@ display: none;
   border: none;
   transition: background-color 0.25s, transform 0.2s;
   
-  /* Staggered Fade */
   opacity: 0;
   animation: fadeInOnly 1s ease-out forwards;
-  animation-delay: 1.8s; /* Appears after title */
+  animation-delay: 1.8s;
 }
 
 .enter-button:hover {
@@ -109,12 +96,9 @@ display: none;
   transform: scale(0.95);
 }
 
-/* --- 4. THE MAIN MIXER --- */
 .mixer-fade-in {
   animation: fadeInOnly 2s ease-in-out forwards;
 }
-
-/* --- 5. CIRCULAR SLIDER UI --- */
 
 .slider-container {
   position: relative;
@@ -126,15 +110,13 @@ display: none;
 }
 
 .slider-container svg {
-  overflow: visible; /* Prevents glow clipping */
+  overflow: visible; 
 }
 
 .slider-bg, 
 .slider-progress {
   fill: none;
   stroke-linecap: round;
-  /* FORCE THE GAP TO THE BOTTOM: 
-     135deg is the magic number for a 75% arc */
   transform: rotate(135deg);
   transform-origin: center;
 }
@@ -146,7 +128,6 @@ display: none;
 .slider-progress {
   stroke: #4a90e2; 
   transition: stroke-dashoffset 0.1s ease;
-  /* Optional: filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.5)); */
 }
 
 .slider-content {
@@ -157,10 +138,9 @@ display: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  pointer-events: none; /* Let clicks pass through to the input */
+  pointer-events: none;
 }
 
-/* Invisible range input that captures the drag math */
 .slider-content input[type="range"] {
   position: absolute;
   width: 100px;
@@ -169,7 +149,7 @@ display: none;
   left: -50px;
   opacity: 0; 
   cursor: pointer;
-  pointer-events: auto; /* Ensure this IS clickable */
+  pointer-events: auto;
 }
 
 .slider-container label {
@@ -184,7 +164,7 @@ display: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5vh; /* Space between the top and bottom row */
+  gap: 5vh;
   margin: 60px auto;
   max-width: 100%;
 }
@@ -192,26 +172,22 @@ display: none;
 .knob-row {
   display: flex;
   justify-content: center;
-  gap: 8vw; /* Space between the knobs themselves */
+  gap: 8vw;
   width: 100%;
   max-width: 1400px;
 }
 
-/* Optional: This makes the "pyramid" look tighter */
 .top-row {
-  /* If you want the top 2 centered but somewhat wide */
   width: 45%;
   min-width: 320px; 
 }
 
 .bottom-row {
-  /* Let the bottom 3 use the full horizontal span */
   width: 85%;
   min-width: 500px; 
 }
 
 .slider-container {
-  /* This ensures the knobs themselves don't shrink */
   flex: 0 0 120px; 
   display: flex;
   flex-direction: column;
@@ -237,7 +213,7 @@ display: none;
 .site-wrapper {
   min-height: 100vh;
   width: 100%;
-  transition: all 1.2s ease-out; /* This makes the colors "flow" smoothly */
+  transition: all 1.2s ease-out;
   
   --sky-r: calc(20 + (var(--birds-vol) * 100) - (var(--storm-vol) * 50));
   --sky-g: calc(40 + (var(--birds-vol) * 120) - (var(--storm-vol) * 50));
@@ -246,7 +222,6 @@ display: none;
   --deep-r: calc(10 + (var(--storm-vol) * 30));
   --deep-g: calc(20 + (var(--shore-vol) * 60) - (var(--storm-vol) * 20));
   --deep-b: calc(40 + (var(--waves-vol) * 100) + (var(--harbor-vol) * 40));
-
 
   background: linear-gradient(
     to bottom,

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react' // Added useRef here
+import { useState, useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -20,13 +20,11 @@ const CircularSlider = ({ volume, setVolume, label, icon }) => {
   const circumference = radius * 2 * Math.PI;
   const arcLength = circumference * 0.75;
   
-  // Calculate the "dash" offset based on volume (0 to 1)
   const offset = circumference - (volume * arcLength);
 
   return (
     <div className="slider-container">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        {/* Background Circle */}
         <circle
           className="slider-bg"
           cx={size / 2}
@@ -34,7 +32,6 @@ const CircularSlider = ({ volume, setVolume, label, icon }) => {
           r={radius}
           strokeWidth={strokeWidth}
         />
-        {/* Progress Circle */}
         <circle
           className="slider-progress"
           cx={size / 2}
@@ -64,12 +61,10 @@ const CircularSlider = ({ volume, setVolume, label, icon }) => {
 
 
 function App() {
-  // --- 1. ALL STATES AND REFS ---
   const [isEntered, setIsEntered] = useState(false);
   const [volumeState, setVolumeState] = useState({});
   const players = useRef({});
   const [isFading, setIsFading] = useState(false);
-  // <--- NEW: Function to handle the Start Button
 
   useEffect(() => {
     STEMS.forEach((stem) => {
@@ -85,31 +80,27 @@ function App() {
   const currentPlayers = players.current;
 
     return () => {
-      // 2. Use the captured variable instead of players.current
       Object.values(currentPlayers).forEach(s => s.unload());
     };
   }, []);
   
 
   const handleEnterSpace = () => {
-    // 1. Wake up the browser's audio engine (crucial for some browsers)
     if (Howler.ctx) {
         Howler.ctx.resume();
     }
     setIsFading(true);
-    // 2. Change state to hide the intro card and show the mixer
+
     Object.values(players.current).forEach(sound => {
       if (!sound.playing()) sound.play();
     });
-    // 1. Start the fade-out animation
 
-  // 2. Wait for the animation (1 second) before switching the UI
     setTimeout(() => {
       setIsEntered(true);
-    }, 1000); // This matches the 1s transition in your CSS
+    }, 1000);
   };
 
-  // --- 2. LOGIC FUNCTIONS ---
+
   const handleVolume = (id, val) => {    
     const volume = parseFloat(val);   
     const sound = players.current[id];
@@ -128,11 +119,11 @@ function App() {
     '--harbor-vol': volumeState['harbor'] || 0,
     '--storm-vol': volumeState['storm'] || 0,
   };
-  // --- 3. THE UI (ONLY ONE RETURN ALLOWED) ---
+
   return (
     <div className="site-wrapper" style={dynamicStyle}>
       {!isEntered ? (
-        /* --- SHOW ONLY THIS IF NOT ENTERED --- */
+
         <section className={`intro-card ${isFading ? 'fade-out' : ''}`}>
           <h1>SOUNDSCAPE REALM</h1>
 
@@ -142,7 +133,7 @@ function App() {
           </button>
         </section>
       ) : (
-        /* --- SHOW ALL OF THIS IF ENTERED --- */
+
         <div className="mixer-fade-in">
           <section id="center">
             <div className="hero">
@@ -162,7 +153,6 @@ function App() {
           
             
           <div className="knob-layout">
-              {/* Top Row: First 2 Stems */}
               <div className="knob-row top-row">
                 {STEMS.slice(0, 2).map((stem) => (
                   <CircularSlider
@@ -174,7 +164,6 @@ function App() {
                 ))}
               </div>
 
-              {/* Bottom Row: Remaining 3 Stems */}
               <div className="knob-row bottom-row">
                 {STEMS.slice(2, 5).map((stem) => (
                   <CircularSlider
@@ -193,6 +182,6 @@ function App() {
         </div>
       )}
     </div>
-  ); // <--- NOW THIS IS THE ONLY ENDING
+  ); 
 }
 export default App;
